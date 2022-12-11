@@ -1,0 +1,9 @@
+{
+	"extends": "@hurricano/ts-config",
+	"compilerOptions": {
+		"paths": {
+			"#struct": ["./src/struct"],
+			"#util": ["./src/util/index.ts"]
+		}
+	}
+}
