@@ -1,5 +1,5 @@
 import { Collection } from "discord.js";
-import type { CommandManager } from "./CommandManager";
+import type { CommandManager } from "./CommandManager.js";
 
 export class AliasesManager extends Collection<string, string> {
 	public constructor(public commands: CommandManager) {

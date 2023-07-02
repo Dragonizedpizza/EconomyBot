@@ -1,5 +1,5 @@
 import { Collection } from "discord.js";
-import { AliasesManager } from "./AliasesManager";
+import { AliasesManager } from "./AliasesManager.js";
 import type { Client, Command } from "#struct";
 
 export class CommandManager extends Collection<string, Command> {

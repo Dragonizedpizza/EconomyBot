@@ -1,12 +1,12 @@
 import { Client as BaseClient, GatewayIntentBits as Intents } from "discord.js";
 import { LoadManager, CommandManager, EventManager, Config } from "#struct";
-import { PrismaClient } from "@prisma/client";
+import { Sequelize } from "sequelize";
 import { readFile } from "node:fs/promises";
-import Logger from "./Logger";
+import Logger from "./Logger.js";
 import type { ClientOptions, ClientPaths } from "#util";
 
 export class Client extends BaseClient {
-	public db: PrismaClient;
+	public db: Sequelize;
 	public paths: ClientPaths;
 	public loader: LoadManager;
 	public commands!: CommandManager;
@@ -21,7 +21,10 @@ export class Client extends BaseClient {
 			},
 		);
 
-		this.db = new PrismaClient();
+		this.db = new Sequelize({
+			dialect: "sqlite",
+			storage: "./db.sqlite",
+		});
 		this.loader = new LoadManager(this);
 		this.paths = paths;
 		this.initConfig().then(() => this.init());

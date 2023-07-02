@@ -1,6 +1,6 @@
 import { s } from "@sapphire/shapeshift";
 import { readFile, writeFile } from "fs/promises";
-import Logger from "./Logger";
+import Logger from "./Logger.js";
 import type { ConfigOptions } from "#util";
 
 export class Config {

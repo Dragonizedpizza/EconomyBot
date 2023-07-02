@@ -1,1 +1,1 @@
-module.exports = { ...require("@hurricano/prettier-config"), plugins: ["prettier-plugin-prisma"] };
+module.exports = { ...require("@hurricano/prettier-config") };

@@ -1,13 +1,13 @@
 import { Event } from "#struct";
 
-export default Event.create("messageCreate", (message) => {
-	if (message.author.bot) return;
+export default Event.create("messageCreate", async (message) => {
+	if (message.author.bot || message.channel.isDMBased()) return;
 
-	if (!client.config.prefixes.some((prefix) => message.content.startsWith(prefix))) return;
+	const db = (await client.db.guild.findFirst({ where: { id: message.guild!.id } }))!;
 
-	const prefix = client.config.prefixes.find((prefix) => message.content.startsWith(prefix))!,
-		args = message.content.slice(prefix.length).trim().split(/ +/g),
-		command = args.shift()!.toLowerCase();
+	const prefix = db.prefixes.find((prefix) => message.content.startsWith(prefix));
+
+	(args = message.content.slice(prefix.length).trim().split(/ +/g)), (command = args.shift()!.toLowerCase());
 
 	client.commands.get(command)!.messageRun(message, args);
 });
