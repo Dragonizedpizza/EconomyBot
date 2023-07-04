@@ -6,7 +6,7 @@ export default Command.create(
 		name: "balance",
 		description: "Check a specified user's in-game balance.",
 		category: "Economy",
-		application: {
+		applicationCommand: {
 			enabled: ["User", "ChatInput"],
 		},
 	},

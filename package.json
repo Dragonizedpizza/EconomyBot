@@ -13,10 +13,10 @@
 	"license": "ISC",
 	"dependencies": {
 		"@sapphire/shapeshift": "^3.9.2",
-		"canvacord": "^5.4.9",
-		"discord-api-types": "^0.37.45",
+		"canvacord": "^5.4.10",
+		"discord-api-types": "^0.37.47",
 		"discord.js": "^14.11.0",
-		"sequelize": "^6.32.0",
+		"sequelize": "^6.32.1",
 		"sqlite3": "^5.1.6",
 		"winston": "^3.9.0"
 	},

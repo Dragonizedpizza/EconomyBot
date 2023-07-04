@@ -6,7 +6,7 @@ export default Command.create(
 		name: "ping",
 		description: "Pong!",
 		category: "General",
-		application: {
+		applicationCommand: {
 			enabled: ["ChatInput"],
 		},
 	},

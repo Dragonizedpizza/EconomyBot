@@ -1,13 +1,15 @@
 import { s } from "@sapphire/shapeshift";
 import { GatewayIntentBits } from "discord.js";
-import { CommandMediums, CommandMessageArgumentTypes } from "./Constants.js";
+import { CommandMediums, CommandCategories, CommandMessageArgumentTypes } from "./Constants.js";
 import { ApplicationCommandType, ApplicationCommandOptionType, ChannelType } from "discord-api-types/v10";
 
 export const permission = s.enum(Object.keys(GatewayIntentBits)).array;
 
 export const commandCooldown = s.object({ runnable: s.number, every: s.number });
 export const commandPermissions = s.object({ user: permission, self: permission });
-export const commandMedium = s.enum(CommandMediums).array;
+export const commandMedium = s.enum(CommandMediums);
+export const commandMediums = commandMedium.array;
+export const commandCategory = s.enum(CommandCategories);
 export const commandMessageArgumentType = s.enum(...CommandMessageArgumentTypes);
 
 export const baseApplicationCommandOption = s.object({
@@ -36,12 +38,13 @@ export const applicationCommand = s.object({
 export const baseMessageCommandOption = s.object({
 	name: s.string,
 	description: s.string.optional,
-	type: s.union(commandMessageArgumentType.array, commandMessageArgumentType),
+	type: commandMessageArgumentType,
+	required: s.boolean.default(true),
 });
 export const messageCommandOption = baseMessageCommandOption.extend({
 	options: baseMessageCommandOption.array,
 });
 export const messageCommand = s.object({
-	enabled: s.boolean.default(true),
-	options: s.union(messageCommandOption.array, messageCommandOption).optional,
+	enabled: s.boolean,
+	options: s.array(s.union(messageCommandOption, messageCommandOption.array)),
 });

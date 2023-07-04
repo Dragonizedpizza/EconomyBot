@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { CommandCategories, CommandMediums, Validators } from "#util";
+import { CommandMediums, Validators } from "#util";
 import type { Client } from "#struct";
 import type {
 	CommandOptions,
@@ -8,6 +8,7 @@ import type {
 	CommandMediumsUnion,
 	CommandCooldown,
 	ApplicationCommandOptions,
+	MessageCommandOptions,
 	Mutable,
 	InteractionOptionResolver,
 } from "#util";
@@ -18,6 +19,10 @@ export interface RunMethods {
 	slashRun?: Command["slashRun"];
 	userContextRun?: Command["userContextRun"];
 	messageContextRun?: Command["messageContextRun"];
+	messageSubCommands?: Record<string, Command["messageRun"]>;
+	slashSubCommands?: Record<string, Command["slashRun"]>;
+	userContextSubCommands?: Record<string, Command["userContextRun"]>;
+	messageContextSubCommands?: Record<string, Command["messageContextRun"]>;
 }
 
 export class Command {
@@ -26,13 +31,18 @@ export class Command {
 	public name: string;
 	public aliases: string[];
 	public description: string;
-	public application?: ApplicationCommandOptions;
 	public category: CommandCategoriesUnion;
 	public cooldown: CommandCooldown;
 	public ownerOnly: boolean;
 	public allowedMediums: CommandMediumsUnion[] = [];
 	public nsfw: boolean;
 	public permissions: CommandPermissions;
+	public applicationCommand?: ApplicationCommandOptions;
+	public messageCommand?: MessageCommandOptions;
+	public messageSubCommands?: Record<string, Command["messageRun"]>;
+	public slashSubCommands?: Record<string, Command["slashRun"]>;
+	public userContextSubCommands?: Record<string, Command["userContextRun"]>;
+	public messageContextSubCommands?: Record<string, Command["messageContextRun"]>;
 
 	constructor(client: Client, options: CommandOptions) {
 		this.client = client;
@@ -40,12 +50,13 @@ export class Command {
 		this.name = s.string.lengthLessThanOrEqual(32).parse(options.name);
 		this.aliases = s.string.lengthLessThanOrEqual(32).array.parse(options.aliases);
 		this.description = s.string.lengthLessThanOrEqual(32).parse(options.description);
-		this.category = <any>s.enum(CommandCategories).parse(options.category);
+		this.category = <any>Validators.commandCategory.parse(options.category);
 		this.cooldown = Validators.commandCooldown.parse(options.cooldown ?? { runnable: 1, every: 2000 });
 		this.ownerOnly = s.boolean.parse(options.ownerOnly ?? false);
 		this.nsfw = s.boolean.parse(options.nsfw ?? false);
 		this.permissions = <any>Validators.commandPermissions.parse(options.permissions ?? { user: [], self: [] });
-		this.application = Validators.applicationCommand.parse(options.application);
+		this.applicationCommand = Validators.applicationCommand.parse(options.applicationCommand);
+		this.messageCommand = Validators.messageCommand.parse(options.messageCommand);
 		if (options.allowedMediums === "All") this.allowedMediums = <any>CommandMediums;
 		else this.allowedMediums = <Mutable<typeof CommandMediums>>(<any>Validators.commandMedium.parse(options.allowedMediums ?? ["Guild"]));
 	}

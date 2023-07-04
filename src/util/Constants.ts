@@ -4,7 +4,7 @@ import type {
 	// ApplicationCommandOptionData,
 	CommandInteractionOptionResolver,
 } from "discord.js";
-import type { applicationCommand, applicationCommandOption } from "./Validators.js";
+import type { applicationCommand, applicationCommandOption, messageCommand, messageCommandOption } from "./Validators.js";
 import type { InferType } from "@sapphire/shapeshift";
 
 import { Client as ModifiedClient } from "#struct";
@@ -44,6 +44,8 @@ export const CommandMediums = ["DM", "GuildChannel", "VoiceChannel"] as const;
 export type CommandMediumsUnion = (typeof CommandMediums)[number];
 
 export const CommandMessageArgumentTypes = ["String", "Number", "User", "Member", "Role", "Channel", "Boolean", "SubCommand"] as const;
+export type MessageCommandOptionData = InferType<typeof messageCommandOption>;
+export type MessageCommandOptions = InferType<typeof messageCommand>;
 
 export interface CommandPermissions {
 	user: PermissionsString;
@@ -66,7 +68,8 @@ export interface CommandOptions {
 	name: string;
 	description: string;
 	category: CommandCategoriesUnion;
-	application: ApplicationCommandOptions;
+	applicationCommand?: ApplicationCommandOptions;
+	messageCommand?: MessageCommandOptions;
 	aliases?: string[];
 	cooldown?: CommandCooldown;
 	ownerOnly?: boolean;

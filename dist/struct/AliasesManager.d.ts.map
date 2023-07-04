@@ -1,1 +1,0 @@
-{"version":3,"file":"AliasesManager.d.ts","sourceRoot":"","sources":["../../src/struct/AliasesManager.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,YAAY,CAAC;AACxC,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,qBAAqB,CAAC;AAE1D,qBAAa,cAAe,SAAQ,UAAU,CAAC,MAAM,EAAE,MAAM,CAAC;IACnC,QAAQ,EAAE,cAAc;gBAAxB,QAAQ,EAAE,cAAc;IAI3C,cAAc,CAAC,IAAI,EAAE,MAAM;IAI3B,OAAO,CAAC,IAAI,EAAE,MAAM;CAG3B"}
